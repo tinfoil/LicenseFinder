@@ -6,7 +6,7 @@ module LicenseFinder
         version,
         options.merge(
           summary: spec['description'],
-          homepage: spec['links'].values.first,
+          homepage: spec.fetch('links', {}).values.first,
           spec_licenses: spec['licenses']
         )
       )
