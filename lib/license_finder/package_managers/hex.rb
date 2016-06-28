@@ -33,12 +33,15 @@ module LicenseFinder
     end
 
     def hex_info(name)
-      response = HTTParty.get("https://hex.pm/api/packages/#{name}")
+      response = HTTParty.get("https://hex.pm/api/packages/#{name}", timeout: 2)
       if response.code == 200
         JSON.parse(response.body).fetch('meta', {})
       else
         {}
       end
+    rescue Timeout::Error
+      $stderr.puts "Failed to get package info for #{name}"
+      {}
     end
 
     def package_path
