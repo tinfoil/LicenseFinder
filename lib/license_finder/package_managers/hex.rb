@@ -1,6 +1,6 @@
 require 'json'
 
-PACKAGE_FORMAT = /\* (\w+) (?:([\d\.]+) )?\(Hex package\)/
+PACKAGE_FORMAT = /\* (\w+)(?:(.*))? \(.*\) \(mix\)/
 
 module LicenseFinder
   class Hex < PackageManager
@@ -25,7 +25,7 @@ module LicenseFinder
 
       output
         .each_line
-        .select { |line| line.start_with?('*') && line.include?('(Hex package)') }
+        .select { |line| line.start_with?('*') && line.include?('(mix)') }
         .map do |line|
           match_data = PACKAGE_FORMAT.match(line)
           [match_data[1], match_data[2]]
