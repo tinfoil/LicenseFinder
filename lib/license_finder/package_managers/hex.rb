@@ -50,7 +50,7 @@ module LicenseFinder
     end
 
     def capture(command)
-      [`#{command}`, $?.success?]
+      [`MIX_ENV=prod #{command}`, $?.success?]
     end
   end
 end
