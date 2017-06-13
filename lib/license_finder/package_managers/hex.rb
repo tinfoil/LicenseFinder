@@ -9,7 +9,6 @@ module LicenseFinder
         HexPackage.new(
           name,
           version,
-          hex_info(name),
           logger: logger,
           install_path: deps_path.join(name)
         )
@@ -30,18 +29,6 @@ module LicenseFinder
           match_data = PACKAGE_FORMAT.match(line)
           [match_data[1], match_data[2]]
         end
-    end
-
-    def hex_info(name)
-      response = HTTParty.get("https://hex.pm/api/packages/#{name}", timeout: 2)
-      if response.code == 200
-        JSON.parse(response.body).fetch('meta', {})
-      else
-        {}
-      end
-    rescue Timeout::Error
-      $stderr.puts "Failed to get package info for #{name}"
-      {}
     end
 
     def package_path
